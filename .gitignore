@@ -1,0 +1,14 @@
+#maven
+target/
+.idea/
+
+#eclipse
+.settings/
+.metadata/
+.classpath
+.project
+
+#忽略根目录下文件夹
+/data
+/web
+/logs
