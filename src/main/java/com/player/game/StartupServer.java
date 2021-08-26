@@ -2,7 +2,7 @@ package com.player.game;
 
 public class StartupServer {
 	public static void main(String args[]) {
-		com.player.game.GameServer.start();
+		GameServer.start();
 	}
 
 }

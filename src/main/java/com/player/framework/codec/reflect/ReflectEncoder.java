@@ -23,7 +23,9 @@ public class ReflectEncoder implements IMessageEncoder {
         } catch (Exception e) {
             logger.error("读取消息出错,模块号{},异常{}", message.getModule(), e);
         }
-        return out.array();
+        byte[] bytes = new byte[out.readableBytes()];
+        out.readBytes(bytes);
+        return bytes;
     }
 
 }

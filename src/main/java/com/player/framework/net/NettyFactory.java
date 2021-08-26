@@ -51,7 +51,7 @@ public enum NettyFactory {
 					2,//数据长度长度
 					0,
 					2));
-			//p.addLast(new NettyProtocolEncoder());//自定义编码器
+			p.addLast(new NettyProtocolEncoder());//自定义编码器
 			p.addLast(new NettyProtocolDecoder());//自定义解码器
 			p.addLast(new NettyChannelHandler(MessageDispatcherFactory.INSTANCE));
 		}

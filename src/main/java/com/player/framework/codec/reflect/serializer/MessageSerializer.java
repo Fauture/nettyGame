@@ -87,6 +87,7 @@ public class MessageSerializer extends Serializer {
                 Field field = fieldMeta.getField();
                 Serializer fieldCodec = fieldMeta.getSerializer();
                 value = field.get(message);
+                System.err.println(value);
                 if (valueType == 1 || valueType == 6) {
                     fieldCodec = Serializer.getSerializer(Byte.class);
                 } else if (valueType == 2 || valueType == 7 || valueType == 85) {

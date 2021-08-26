@@ -24,4 +24,5 @@ public interface Module {
 	/** 跨服天梯 */
 	int LADDER = 501;
 
+	int TEST = 9999;
 }
