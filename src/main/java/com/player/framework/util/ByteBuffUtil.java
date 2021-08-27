@@ -1,97 +1,91 @@
 package com.player.framework.util;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import java.nio.charset.Charset;
 
 public class ByteBuffUtil {
-	public static final Charset DEFAULT_CHARSET = Charset.forName("GBK");
+    public static final Charset DEFAULT_CHARSET = Charset.forName("GBK");
 
-	/**
-	 * 取一个长度字符串
-	 * @param cb
-	 * @return
-	 * @throws IndexOutOfBoundsException
-	 */
-	public static String readByteString(ByteBuf cb) throws IndexOutOfBoundsException {
-		int lenght = readUnsignedByte(cb);
-		if (lenght == 0) {
-			return "";
-		}
-		if ((lenght > 0) && (lenght <= cb.readableBytes())) {
-			byte[] strByte = new byte[lenght];
-			cb.readBytes(strByte);
-			return readString(strByte);
-		}
-		throw new IndexOutOfBoundsException("字符串长度不够 ! ");
-	}
+    /**
+     * 读byte长度的String
+     */
+    public static String readByteString(ByteBuf cb) throws IndexOutOfBoundsException {
+        int length = cb.readUnsignedByte();
+        return getString(cb, length);
+    }
 
-	/**
-	 * 取两个长度字符串
-	 * @param cb
-	 * @return
-	 * @throws IndexOutOfBoundsException
-	 */
-	public static String readShortString(ByteBuf cb) throws IndexOutOfBoundsException {
-		int lenght = cb.readUnsignedShort();
-		if (lenght == 0) {
-			return "";
-		}
-		if ((lenght > 0) && (lenght <= cb.readableBytes())) {
-			byte[] strByte = new byte[lenght];
-			cb.readBytes(strByte);
-			return readString(strByte);
-		}
-		throw new IndexOutOfBoundsException(lenght+"字符串长度不够 ! ");
-	}
+    /**
+     * 读short长度的String
+     */
+    public static String readShortString(ByteBuf cb) throws IndexOutOfBoundsException {
+        int length = cb.readUnsignedShort();
+        return getString(cb, length);
+    }
 
-	public static String readString(byte[] bytes) {
-		return new String(bytes, DEFAULT_CHARSET);
-	}
+    /**
+     * 读int长度的String
+     */
+    public static String readFullString(ByteBuf cb) throws IndexOutOfBoundsException {
+        int length = cb.readInt();
+        return getString(cb, length);
+    }
 
-	public static int readUnsignedByte(ByteBuf cb) {
-		return cb.readUnsignedByte();
-	}
+    private static String getString(ByteBuf cb, int length) {
+        if (length == 0) {
+            return "";
+        }
+        if ((length > 0) && (length <= cb.readableBytes())) {
+            byte[] strByte = new byte[length];
+            cb.readBytes(strByte);
+            return readString(strByte);
+        }
+        throw new IndexOutOfBoundsException(length + "字符串长度不够 ! ");
+    }
 
 
-	/**
-	 * 一个长度文本
-	 *
-	 * @param buff
-	 * @param value
-	 */
-	public static void writeByteString(ByteBuf buff, String value) {
-		if (value == null) {
-			buff.writeByte(0);
-			return;
-		}
-		byte[] bytes = value.getBytes(DEFAULT_CHARSET);
-
-		buff.writeByte(bytes.length);
-		buff.writeBytes(bytes);
-	}
+    public static String readString(byte[] bytes) {
+        return new String(bytes, DEFAULT_CHARSET);
+    }
 
 
-	/**
-	 * 两个长度文本
-	 *
-	 * @param buff
-	 * @param value
-	 */
-	public static void writeShortString(ByteBuf buff, String value) {
-		if (value == null) {
-			buff.writeShort(0);
-			return;
-		}
-		byte[] bytes = value.getBytes(DEFAULT_CHARSET);
-		buff.writeShort(bytes.length);
-		buff.writeBytes(bytes);
-	}
+    /**
+     * 写byte长度的String
+     */
+    public static void writeByteString(ByteBuf buff, String value) {
+        if (value == null) {
+            buff.writeByte(0);
+            return;
+        }
+        byte[] bytes = value.getBytes(DEFAULT_CHARSET);
 
+        buff.writeByte(bytes.length);
+        buff.writeBytes(bytes);
+    }
 
+    /**
+     * 写short长度的String
+     */
+    public static void writeShortString(ByteBuf buff, String value) {
+        if (value == null) {
+            buff.writeShort(0);
+            return;
+        }
+        byte[] bytes = value.getBytes(DEFAULT_CHARSET);
+        buff.writeShort(bytes.length);
+        buff.writeBytes(bytes);
+    }
 
-
-
-
+    /**
+     * 写int长度的String
+     */
+    public static void writeFullString(ByteBuf buff, String value) {
+        if (value == null) {
+            buff.writeShort(0);
+            return;
+        }
+        byte[] bytes = value.getBytes(DEFAULT_CHARSET);
+        buff.writeInt(bytes.length);
+        buff.writeBytes(bytes);
+    }
 
 }

@@ -2,6 +2,7 @@ package com.player.framework.codec.reflect.serializer;
 
 
 import com.player.framework.annotation.*;
+import com.player.framework.util.ByteBuffUtil;
 import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,7 @@ public class MessageSerializer extends Serializer {
                             /**读取short长度的String*/
                             value = stringSerializer.decodeShort(in);
                         } else if (stringField.value() == 100) {
-//                            value = ByteBuffUtil.readFullString(in);
+                            value = ByteBuffUtil.readFullString(in);
                         } else {
                             /**默认读取byte长度的String*/
                             value = fieldCodec.decode(in, fieldMeta.getType(), fieldMeta.getWrapper());
@@ -87,7 +88,6 @@ public class MessageSerializer extends Serializer {
                 Field field = fieldMeta.getField();
                 Serializer fieldCodec = fieldMeta.getSerializer();
                 value = field.get(message);
-                System.err.println(value);
                 if (valueType == 1 || valueType == 6) {
                     fieldCodec = Serializer.getSerializer(Byte.class);
                 } else if (valueType == 2 || valueType == 7 || valueType == 85) {
@@ -106,7 +106,7 @@ public class MessageSerializer extends Serializer {
                         if (stringField.value() == 1) {
                             stringSerializer.encodeShort(out, (String) value);
                         } else if (stringField.value() == 100) {
-//                            ByteBuffUtil.writeFullString(out, (String) value);
+                            ByteBuffUtil.writeFullString(out, (String) value);
                         } else {
                             /**默认写入byte长度的String*/
                             fieldCodec.encode(out, value, fieldMeta.getWrapper());
