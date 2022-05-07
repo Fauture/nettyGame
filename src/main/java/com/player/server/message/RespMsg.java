@@ -1,4 +1,4 @@
-package com.player.game.message;
+package com.player.server.message;
 
 
 import com.player.framework.annotation.StringField;
@@ -31,4 +31,10 @@ public class RespMsg extends Message {
         this.active = active;
     }
 
+    public RespMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public RespMsg() {
+    }
 }

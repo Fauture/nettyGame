@@ -73,7 +73,6 @@ public enum MessageDispatcherFactory implements IoDispatcher {
             short cmd = message.getCmd();
             CmdExecutor executer = this.container.get(MessageFactory.INSTANCE.key(module, cmd));
             if (executer == null) {
-//				System.err.println("Message executor missed, module=" + module + ",cmd=" + cmd + ",cmd_=" + message.getCmd_());
                 return true;
 //				throw new Exception("Message executor missed, module=" + module + ",cmd=" + cmd);
             }

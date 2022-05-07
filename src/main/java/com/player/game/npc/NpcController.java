@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.player.framework.annotation.message.Controller;
 import com.player.framework.annotation.message.RequestMapping;
 import com.player.framework.net.IdSession;
-import com.player.game.message.RespMsg;
+import com.player.server.message.RespMsg;
 
 
 @Controller
@@ -39,9 +39,7 @@ public class NpcController {
 //            RespNpcLeave respNpcLeave = new RespNpcLeave();
 //            respNpcLeave.setNpcId(request.getNpcId());
 //            session.send(respNpcLeave);
-            RespMsg respMsg = new RespMsg();
-            respMsg.setMsg("测试消息");
-            session.send(respMsg);
+            session.send(new RespMsg("测试消息"));
         }
 
     }
