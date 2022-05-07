@@ -23,4 +23,10 @@ public class MessageRouter {
 		session.send(message);
 	}
 
+	public static void c_send(IdSession session, Message message) {
+		if (session == null || message == null) {
+			return;
+		}
+		session.c_send(message);
+	}
 }

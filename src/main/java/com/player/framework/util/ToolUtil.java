@@ -2,7 +2,7 @@ package com.player.framework.util;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.player.game.ServerConfig;
+import com.player.server.ServerConfig;
 
 public class ToolUtil {
 

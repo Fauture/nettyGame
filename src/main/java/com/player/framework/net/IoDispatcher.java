@@ -6,7 +6,7 @@ public interface IoDispatcher {
 
 	public void onSessionCreated(IdSession session);
 
-	public void dispatch(IdSession session, Message message);
+	public boolean dispatch(IdSession session, Message message);
 
 	public void onSessionClosed(IdSession session);
 

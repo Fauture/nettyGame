@@ -2,7 +2,7 @@
 <server>
 
 	<serverId>10001</serverId>
-	<serverPort>6080</serverPort>
+	<serverPort>8160</serverPort>
 
 	<!-- http后台管理 -->
 	<adminPort>8080</adminPort>

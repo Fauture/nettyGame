@@ -17,6 +17,7 @@ public class ChannelSession {
 
 	public static boolean setPlayerSession(Channel channel, IdSession session) {
 		Attribute<IdSession> sessionAttr = channel.attr(KEY);
+
 		return sessionAttr.compareAndSet(null, session);
 	}
 

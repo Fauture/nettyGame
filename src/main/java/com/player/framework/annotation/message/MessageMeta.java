@@ -6,7 +6,12 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MessageMeta {
-	short module() default 0;
-
-	short cmd() default 0;
+    /**
+     * 包头
+     */
+    short module() default 0;
+    /**
+     * 区分新旧
+     */
+    short cmd() default 0;
 }

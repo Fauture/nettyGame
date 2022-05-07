@@ -13,9 +13,11 @@ public class NettyProtocolEncoder extends MessageToByteEncoder<Message> {
 
     protected void encode(ChannelHandlerContext ctx, Message message, ByteBuf out) throws Exception {
         try {
-            out.writeInt(0);
-            out.writeInt(0);
-            int moduleId = message.getModule();
+            out.writeByte(77);
+            out.writeByte(90);
+            out.writeShort(0);
+            out.writeInt(message.getTime());
+            int moduleId = message.getModule() == 0 ? message.getCmd_() : message.getModule();
             IMessageEncoder msgEncoder = SerializerHelper.getInstance().getEncoder();
             byte[] body = msgEncoder.writeMessageBody(message);
             out.writeShort(body.length + moduleLength);

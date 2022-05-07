@@ -25,6 +25,7 @@ public enum MessageFactory {
                     throw new RuntimeException("Messages[" + clazz.getSimpleName() + "] missed MessageMeta annotation");
                 }
                 int key = key(meta.module(), meta.cmd());
+                System.err.println(key);
                 if (id2Clazz.containsKey(key)) {
                     throw new RuntimeException("Message meta [" + key + "] duplicate clazz[" + clazz + "]");
                 }
@@ -64,7 +65,7 @@ public enum MessageFactory {
     }
 
     public int key(int module, int cmd) {
-        return module * 1000 + cmd;
+        return module + cmd * 100000;
     }
 
 }
