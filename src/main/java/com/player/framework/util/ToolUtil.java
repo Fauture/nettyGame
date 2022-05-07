@@ -13,7 +13,7 @@ public class ToolUtil {
 	}
 
 	public static long getId() {
-		long serverId = ServerConfig.getInstance().getServerId();
+		long serverId = 10000;
 		return (serverId << 48) | (((System.currentTimeMillis() / 1000) & 0xFFFFFFFF) << 16)
 				| (atomicLong.getAndIncrement() & 0xFFFF);
 	}

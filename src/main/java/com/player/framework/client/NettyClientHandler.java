@@ -24,7 +24,7 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
      * @throws Exception
      */
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-
+//        idSession.setChannel_c(ctx.channel());
     }
 
     /**

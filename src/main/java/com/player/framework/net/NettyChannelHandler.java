@@ -48,6 +48,8 @@ public class NettyChannelHandler extends ChannelInboundHandlerAdapter {
 //        IdSession session = ChannelSession.getPlayerSession(ctx.channel());
 //        IdSession session = SessionManager.getSessionBy(ctx.channel());
 //        this.messageDispatcher.onSessionClosed(session);
+        IdSession session = SessionManager.getSessionBy(ctx.channel());
+        session.getChannel_c().close();
     }
     /**
      * 心跳
