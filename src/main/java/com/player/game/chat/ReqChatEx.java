@@ -1,4 +1,4 @@
-package com.player.game.message;
+package com.player.game.chat;
 
 
 import com.player.framework.annotation.ListField;

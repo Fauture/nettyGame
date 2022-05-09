@@ -1,12 +1,14 @@
-package com.player.server.message;
+package com.player.game.chat;
 
 
 import com.player.framework.annotation.StringField;
+import com.player.framework.annotation.message.MessageIgnore;
 import com.player.framework.annotation.message.MessageMeta;
 import com.player.framework.serializer.Message;
 import com.player.server.Cmd;
 import com.player.server.Module;
 
+@MessageIgnore()
 @MessageMeta(cmd = Cmd.ORIGINAL, module = Module.MSG_DIALOG_OK)
 public class RespMsg extends Message {
    

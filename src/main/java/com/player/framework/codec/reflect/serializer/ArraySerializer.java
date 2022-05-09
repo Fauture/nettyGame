@@ -14,9 +14,9 @@ import java.lang.reflect.Array;
 public class ArraySerializer extends Serializer {
 
     @Override
-    public Object decode(ByteBuf in, Class<?> type, Class<?> wrapper) {
+    public Object decode(ByteBuf in, Class<?> value, Class<?> wrapper) {
         int size = in.readShort();
-        Object array = ReflectUtil.newArray(type, wrapper, size);
+        Object array = ReflectUtil.newArray(value, wrapper, size);
 
         for (int i = 0; i < size; i++) {
             Serializer fieldCodec = getSerializer(wrapper);
@@ -26,6 +26,28 @@ public class ArraySerializer extends Serializer {
 
         return array;
     }
+
+    public Object decode(ByteBuf in, Class<?> value, Class<?> wrapper, int type) {
+        int size = 0;
+        if (value == null) {
+            if (type == 1) {
+                size = in.readByte();
+            } else if (type == 2) {
+            } else if (type == 3) {
+                size = in.readInt();
+            } else {
+                size = in.readShort();
+            }
+        }
+        Object array = ReflectUtil.newArray(value, wrapper, size);
+        for (int i = 0; i < size; i++) {
+            Serializer fieldCodec = getSerializer(wrapper);
+            Object eleValue = fieldCodec.decode(in, wrapper, null);
+            Array.set(array, i, eleValue);
+        }
+        return array;
+    }
+
 
     @Override
     public void encode(ByteBuf out, Object value, Class<?> wrapper) {

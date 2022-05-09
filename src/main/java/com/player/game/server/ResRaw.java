@@ -1,10 +1,12 @@
-package com.player.server.message;
+package com.player.game.server;
 
 
 import com.player.framework.annotation.ListField;
+import com.player.framework.annotation.message.MessageIgnore;
 import com.player.framework.annotation.message.MessageMeta;
 import com.player.framework.serializer.Message;
 
+@MessageIgnore()
 @MessageMeta()
 public class ResRaw extends Message {
 

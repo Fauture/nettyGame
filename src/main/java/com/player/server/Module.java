@@ -8,4 +8,5 @@ public interface Module {
 	int MSG_MENU_CLOSED = 11731;//关闭NPC对话框
 	int MSG_DIALOG_OK = 8165;//返回横幅提示
 	int CMD_CHAT_EX = 15076;//聊天
+	int MSG_UPDATE = 14833;//角色属性
 }

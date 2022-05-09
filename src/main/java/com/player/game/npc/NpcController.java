@@ -4,7 +4,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.player.framework.annotation.message.Controller;
 import com.player.framework.annotation.message.RequestMapping;
 import com.player.framework.net.IdSession;
-import com.player.server.message.RespMsg;
+import com.player.game.role.FieldValue;
+import com.player.game.chat.RespMsg;
+import com.player.game.role.RespUpdate;
+
+import java.util.LinkedList;
 
 
 @Controller
@@ -23,14 +27,14 @@ public class NpcController {
     @RequestMapping
     public void reqNpcTalk(IdSession session, ReqNpcTalk request) {
         System.err.println("1_" + JSONObject.toJSONString(request));
-        session.c_send(request);
+//        session.c_send(request);
         npcTalk(session, request.getNpcTalk());
     }
 
     @RequestMapping
     public void reqNpcTalk(IdSession session, ReqNpcTalk_2 request) {
         System.err.println("2_" + JSONObject.toJSONString(request));
-        session.c_send(request);
+//        session.c_send(request);
         npcTalk(session, request.getNpcTalk());
     }
 
@@ -40,6 +44,13 @@ public class NpcController {
 //            respNpcLeave.setNpcId(request.getNpcId());
 //            session.send(respNpcLeave);
             session.send(new RespMsg("测试消息"));
+
+            RespUpdate respUpdate = new RespUpdate();
+            respUpdate.setRoleId(41270);
+            respUpdate.setList(new LinkedList<>());
+            respUpdate.getList().add(new FieldValue(27, 3, 10000));
+            session.send(respUpdate);
+            System.err.println(JSONObject.toJSONString(respUpdate));
         }
 
     }

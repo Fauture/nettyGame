@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.player.framework.annotation.message.MessageIgnore;
 import com.player.framework.annotation.message.MessageMeta;
 import com.player.framework.util.ClassScanner;
 
@@ -25,7 +26,12 @@ public enum MessageFactory {
                     throw new RuntimeException("Messages[" + clazz.getSimpleName() + "] missed MessageMeta annotation");
                 }
                 int key = key(meta.module(), meta.cmd());
-                System.err.println(key);
+                MessageIgnore ignore = clazz.getAnnotation(MessageIgnore.class);
+                if (ignore != null) {
+                    System.out.println("MessageIgnore Message meta [" + key + "] clazz[" + clazz + "]");
+                    continue;
+                }
+                System.out.println("Message meta [" + key + "] clazz[" + clazz + "]");
                 if (id2Clazz.containsKey(key)) {
                     throw new RuntimeException("Message meta [" + key + "] duplicate clazz[" + clazz + "]");
                 }

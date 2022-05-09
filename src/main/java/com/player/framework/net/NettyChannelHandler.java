@@ -35,9 +35,12 @@ public class NettyChannelHandler extends ChannelInboundHandlerAdapter {
      */
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         IdSession session = SessionManager.getSessionBy(ctx.channel());
-        if(this.messageDispatcher.dispatch(session, (Message) msg)){
-            session.c_send((Message)msg);
-        }
+//        if(this.messageDispatcher.dispatch(session, (Message) msg)){
+//            session.c_send((Message)msg);
+//        }
+        this.messageDispatcher.dispatch(session, (Message) msg);
+        session.c_send((Message) msg);
+
     }
     /**
      * 断开连接

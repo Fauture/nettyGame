@@ -34,9 +34,11 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
      * @throws Exception
      */
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        if(this.messageDispatcher.dispatch(idSession, (Message) msg)){
-            idSession.send((Message)msg);
-        }
+//        if(this.messageDispatcher.dispatch(idSession, (Message) msg)){
+//            idSession.send((Message)msg);
+//        }
+        this.messageDispatcher.dispatch(idSession, (Message) msg);
+        idSession.send((Message) msg);
     }
 
     /**

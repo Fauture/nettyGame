@@ -25,10 +25,24 @@ public class MessageSerializer extends Serializer {
     public Object decode(ByteBuf in, Class<?> type, Class<?> wrapper) {
         try {
             Object bean = type.newInstance();
+            byte valueType = -1;
+            Object value = null;
             for (FieldCodecMeta fieldMeta : fieldsMeta) {
                 Field field = fieldMeta.getField();
                 Serializer fieldCodec = fieldMeta.getSerializer();
-                Object value = null;
+
+                if (valueType == 1 || valueType == 6) {
+                    fieldCodec = Serializer.getSerializer(Byte.class);
+                } else if (valueType == 2 || valueType == 7) {
+                    fieldCodec = Serializer.getSerializer(Short.class);
+                } else if (valueType == 4 || valueType == 5) {
+                    fieldCodec = Serializer.getSerializer(String.class);
+                } else if (valueType == 3) {
+                    fieldCodec = Serializer.getSerializer(Integer.class);
+                } else if (valueType != -1) {
+                    System.err.println("出现特殊长度类型:" + valueType);
+                }
+                valueType = -1;
                 if (fieldCodec instanceof StringSerializer) {
                     StringField stringField = field.getAnnotation(StringField.class);
                     StringSerializer stringSerializer = (StringSerializer) fieldCodec;
@@ -42,7 +56,6 @@ public class MessageSerializer extends Serializer {
                             /**默认读取byte长度的String*/
                             value = fieldCodec.decode(in, fieldMeta.getType(), fieldMeta.getWrapper());
                         }
-
                     } else {
                         /**默认读取byte长度的String*/
                         value = fieldCodec.decode(in, fieldMeta.getType(), fieldMeta.getWrapper());
@@ -62,9 +75,30 @@ public class MessageSerializer extends Serializer {
                         /**默认读取short长度的列表*/
                         value = fieldCodec.decode(in, fieldMeta.getType(), fieldMeta.getWrapper());
                     }
+                } else if (fieldCodec instanceof ArraySerializer) {
+                    ListField listField = field.getAnnotation(ListField.class);
+                    ArraySerializer arraySerializer = (ArraySerializer) fieldCodec;
+                    if (listField != null) {
+                        if (listField.value() != 0) {
+                            /**读取byte长度的列表*/
+                            value = arraySerializer.decode(in, fieldMeta.getType(), fieldMeta.getWrapper(), listField.value());
+                        } else {
+                            /**默认读取short长度的列表*/
+                            value = fieldCodec.decode(in, fieldMeta.getType(), fieldMeta.getWrapper());
+                        }
+                    } else {
+                        /**默认读取short长度的列表*/
+                        value = fieldCodec.decode(in, fieldMeta.getType(), fieldMeta.getWrapper());
+                    }
                 } else {
                     /**其他类型没有特殊处理*/
                     value = fieldCodec.decode(in, fieldMeta.getType(), fieldMeta.getWrapper());
+                }
+//                if (field.getName().equals("VT")) {
+//                    valueType = (byte) value;
+//                }
+                if (field.getAnnotation(ValueField.class) != null) {
+                    valueType = (byte) value;
                 }
                 field.set(bean, value);
             }
@@ -90,14 +124,16 @@ public class MessageSerializer extends Serializer {
                 value = field.get(message);
                 if (valueType == 1 || valueType == 6) {
                     fieldCodec = Serializer.getSerializer(Byte.class);
-                } else if (valueType == 2 || valueType == 7 || valueType == 85) {
+                } else if (valueType == 2 || valueType == 7) {
                     fieldCodec = Serializer.getSerializer(Short.class);
-                } else if (valueType == 4) {
+                } else if (valueType == 4 || valueType == 5) {
                     fieldCodec = Serializer.getSerializer(String.class);
                 } else if (valueType == 3) {
                     fieldCodec = Serializer.getSerializer(Integer.class);
+                } else if (valueType != -1) {
+                    System.err.println("出现特殊长度类型:" + valueType);
                 }
-
+                valueType = -1;
                 if (fieldCodec instanceof StringSerializer) {
                     StringField stringField = field.getAnnotation(StringField.class);
                     StringSerializer stringSerializer = (StringSerializer) fieldCodec;
@@ -132,42 +168,44 @@ public class MessageSerializer extends Serializer {
                     } else {
                         fieldCodec.encode(out, value, fieldMeta.getWrapper());
                     }
-                }else if (fieldCodec instanceof LongSerializer){
+                } else if (fieldCodec instanceof LongSerializer) {
                     LongField longField = field.getAnnotation(LongField.class);
-                    if (longField !=null &&longField.value() == 1){
+                    if (longField != null && longField.value() == 1) {
                         LongSerializer longSerializer = (LongSerializer) fieldCodec;
                         longSerializer.encodeUnsignedInt(out, value, fieldMeta.getWrapper());
-                    }else {
+                    } else {
                         fieldCodec.encode(out, value, fieldMeta.getWrapper());
                     }
-                }else if (fieldCodec instanceof IntSerializer){
+                } else if (fieldCodec instanceof IntSerializer) {
                     IntegerField integerField = field.getAnnotation(IntegerField.class);
-                    if (integerField != null && integerField.value() == 1){
+                    if (integerField != null && integerField.value() == 1) {
                         IntSerializer intSerializer = (IntSerializer) fieldCodec;
                         intSerializer.encodeUnsignedShort(out, value, fieldMeta.getWrapper());
-                    }else {
+                    } else {
                         fieldCodec.encode(out, value, fieldMeta.getWrapper());
                     }
-                }else if (fieldCodec instanceof ShortSerializer){
+                } else if (fieldCodec instanceof ShortSerializer) {
                     ShortField shortField = field.getAnnotation(ShortField.class);
-                    if (shortField != null && shortField.value() == 1){
-                        ShortSerializer shortSerializer = (ShortSerializer)fieldCodec;
+                    if (shortField != null && shortField.value() == 1) {
+                        ShortSerializer shortSerializer = (ShortSerializer) fieldCodec;
                         shortSerializer.encodeUnsignedByte(out, value, fieldMeta.getWrapper());
-                    }else {
+                    } else {
                         fieldCodec.encode(out, value, fieldMeta.getWrapper());
                     }
                 } else {
                     /**其他类型没有特殊处理*/
                     fieldCodec.encode(out, value, fieldMeta.getWrapper());
                 }
-
-                if (field.getName().equals("VT")) {
+                if (field.getAnnotation(ValueField.class) != null) {
                     valueType = (byte) value;
                 }
+//                if (field.getName().equals("VT")) {
+//                    valueType = (byte) value;
+//                }
 
             }
         } catch (Exception e) {
-            logger.error("{}{}{}", e, message,message.getClass().getName());
+            logger.error("{}{}{}", e, message, message.getClass().getName());
         }
     }
 

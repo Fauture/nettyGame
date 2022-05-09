@@ -6,7 +6,7 @@ import com.player.framework.codec.IMessageDecoder;
 import com.player.framework.codec.SerializerHelper;
 import com.player.framework.serializer.Message;
 import com.player.framework.serializer.MessageFactory;
-import com.player.server.message.ResRaw;
+import com.player.game.server.ResRaw;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
