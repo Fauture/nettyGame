@@ -4,6 +4,8 @@ import com.player.framework.annotation.message.MessageMeta;
 
 public class Message {
 
+	private int _type;
+
 	private short cmd_;
 
 	private int time;
@@ -24,7 +26,16 @@ public class Message {
 		return cmd_;
 	}
 
-	public short getModule() {
+
+	public int get_type() {
+		return _type;
+	}
+
+	public void set_type(int _type) {
+		this._type = _type;
+	}
+
+	public int getModule() {
 		MessageMeta annotation = getClass().getAnnotation(MessageMeta.class);
 		if (annotation != null) {
 			return annotation.module();
@@ -32,7 +43,7 @@ public class Message {
 		return 0;
 	}
 
-	public short getCmd() {
+	public int getCmd() {
 		MessageMeta annotation = getClass().getAnnotation(MessageMeta.class);
 		if (annotation != null) {
 			return annotation.cmd();

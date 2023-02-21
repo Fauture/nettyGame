@@ -15,14 +15,20 @@ public class MessageRouter {
 			send(playerId, message);
 		}
 	}
-
+	/**
+	 * 服务端发玩家
+	 * @param message
+	 */
 	public static void send(IdSession session, Message message) {
 		if (session == null || message == null) {
 			return;
 		}
 		session.send(message);
 	}
-
+	/**
+	 * 玩家发服务端
+	 * @param message
+	 */
 	public static void c_send(IdSession session, Message message) {
 		if (session == null || message == null) {
 			return;

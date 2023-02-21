@@ -6,7 +6,10 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ListField {
-
-    int value() default 0;//0.short 1.byte 2.不要长度 3.int
+    /**
+     * 0.short 1.byte 2.不要长度 3.int
+     * @return
+     */
+    int value() default 0;
 
 }

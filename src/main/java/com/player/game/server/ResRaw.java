@@ -6,9 +6,13 @@ import com.player.framework.annotation.message.MessageIgnore;
 import com.player.framework.annotation.message.MessageMeta;
 import com.player.framework.serializer.Message;
 
-@MessageIgnore()
+//@MessageIgnore()
 @MessageMeta()
 public class ResRaw extends Message {
+
+
+    public ResRaw() {
+    }
 
     public ResRaw(int time, short cmd) {
         setCmd_(cmd);

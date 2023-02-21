@@ -48,22 +48,17 @@ public enum MessageFactory {
         return id2Clazz.get(key(module, cmd));
     }
 
-    public Class<?> getMessageById(int id) {
-        int module = (int) (id / 1000);
-        int cmd = (int) (id % 1000);
-        return id2Clazz.get(key(module, cmd));
-    }
 
     public int getIdByMessage(Class<?> clazz) {
         return clazz2Id.get(clazz);
     }
 
-    public short[] getMessageMeta(Method method) {
+    public int[] getMessageMeta(Method method) {
         for (Class<?> clazz : method.getParameterTypes()) {
             if (Message.class.isAssignableFrom(clazz)) {
                 MessageMeta protocol = clazz.getAnnotation(MessageMeta.class);
                 if (protocol != null) {
-                    return new short[]{protocol.module(), protocol.cmd()};
+                    return new int[]{protocol.module(), protocol.cmd()};
                 }
             }
         }

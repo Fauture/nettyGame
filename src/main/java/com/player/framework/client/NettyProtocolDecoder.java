@@ -1,6 +1,4 @@
-package com.player.framework.net;
-
-import java.util.List;
+package com.player.framework.client;
 
 import com.player.framework.codec.IMessageDecoder;
 import com.player.framework.codec.SerializerHelper;
@@ -11,8 +9,10 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
+import java.util.List;
+
 /**
- * 拆解包体
+ * 客户端拆解包体
  */
 public class NettyProtocolDecoder extends ByteToMessageDecoder {
 
@@ -28,10 +28,10 @@ public class NettyProtocolDecoder extends ByteToMessageDecoder {
             byte[] bytes = new byte[length - moduleLength];
             in.readBytes(bytes);
             Class<?> msgClazz = MessageFactory.INSTANCE.getMessage(moduleId, 0);
-            System.err.println("msgClazz:" + msgClazz + " time:" + time + " length:" + length + " moduleId:" + moduleId);
+//            System.err.println("msgClazz:" + msgClazz + " time:" + time + " length:" + length + " moduleId:" + moduleId);
             if (msgClazz == null) {
                 ResRaw reqRaw = new ResRaw(time, (short) moduleId);
-                reqRaw.set_type(1);
+                reqRaw.set_type(2);
                 reqRaw.setBytes(bytes);
                 out.add(reqRaw);
                 return;

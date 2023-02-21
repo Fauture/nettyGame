@@ -1,6 +1,7 @@
 package com.player.framework.net;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -35,14 +36,14 @@ public enum MessageDispatcherFactory implements IoDispatcher {
                 for (Method method : methods) {
                     RequestMapping mapperAnnotation = method.getAnnotation(RequestMapping.class);
                     if (mapperAnnotation != null) {
-                        short[] meta = MessageFactory.INSTANCE.getMessageMeta(method);
+                        int[] meta = MessageFactory.INSTANCE.getMessageMeta(method);
                         if (meta == null) {
                             throw new RuntimeException(
                                     String.format("Controller[%s] method[%s] lack of RequestMapping annotation",
                                             controller.getName(), method.getName()));
                         }
-                        short module = meta[0];
-                        short cmd = meta[1];
+                        int module = meta[0];
+                        int cmd = meta[1];
                         int key = MessageFactory.INSTANCE.key(module, cmd);
                         CmdExecutor executer = this.container.get(key);
                         if (executer != null) {
@@ -67,22 +68,26 @@ public enum MessageDispatcherFactory implements IoDispatcher {
         }
     }
 
-    public boolean dispatch(IdSession session, Message message) {
+    public void dispatch(IdSession session, Message message) {
         try {
-            short module = message.getModule();
-            short cmd = message.getCmd();
+            int module =  message.getModule();
+            int cmd =  message.getCmd();
+            int type= message.get_type();
+            int uuid = (int) session.getAttribute(PropertySession.UUID);
             CmdExecutor executer = this.container.get(MessageFactory.INSTANCE.key(module, cmd));
+            if(type!=0){
+                executer = this.container.get(MessageFactory.INSTANCE.key(0, 0));
+            }
             if (executer == null) {
-                return true;
+                return ;
 //				throw new Exception("Message executor missed, module=" + module + ",cmd=" + cmd);
             }
             Object controller = executer.getHandler();
             Object[] params = this.getParams(session, message, executer.getParams());
-            TaskScheduleFactory.INSTANCE.addTask(MessageTask.valueOf(0, controller, executer.getMethod(), params));
+            TaskScheduleFactory.INSTANCE.addTask(MessageTask.valueOf(uuid, controller, executer.getMethod(), params));
         } catch (Exception e) {
             logger.error("", e);
         }
-        return false;
     }
 
     public void onSessionClosed(IdSession session) {

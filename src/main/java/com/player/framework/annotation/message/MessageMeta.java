@@ -9,9 +9,9 @@ public @interface MessageMeta {
     /**
      * 包头
      */
-    short module() default 0;
+    int module() default 0;
     /**
      * 区分新旧
      */
-    short cmd() default 0;
+    int cmd() default 0;
 }

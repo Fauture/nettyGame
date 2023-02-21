@@ -25,7 +25,7 @@ public class NettyChannelHandler extends ChannelInboundHandlerAdapter {
         Channel channel = ctx.channel();
         IdSession session = new PlayerSession(channel);
         SessionManager.add2Anonymous(session);
-//        this.messageDispatcher.onSessionCreated(session);
+        this.messageDispatcher.onSessionCreated(session);
     }
     /**
      * 接收消息
@@ -35,11 +35,7 @@ public class NettyChannelHandler extends ChannelInboundHandlerAdapter {
      */
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         IdSession session = SessionManager.getSessionBy(ctx.channel());
-//        if(this.messageDispatcher.dispatch(session, (Message) msg)){
-//            session.c_send((Message)msg);
-//        }
         this.messageDispatcher.dispatch(session, (Message) msg);
-        session.c_send((Message) msg);
 
     }
     /**
@@ -48,22 +44,8 @@ public class NettyChannelHandler extends ChannelInboundHandlerAdapter {
      * @throws Exception
      */
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-//        IdSession session = ChannelSession.getPlayerSession(ctx.channel());
-//        IdSession session = SessionManager.getSessionBy(ctx.channel());
-//        this.messageDispatcher.onSessionClosed(session);
         IdSession session = SessionManager.getSessionBy(ctx.channel());
         session.getChannel_c().close();
-    }
-    /**
-     * 心跳
-     * @param ctx
-     * @param msg
-     * @throws Exception
-     */
-    public void userEventTriggered(ChannelHandlerContext ctx, Object msg) throws Exception {
-//        IdSession session = ChannelSession.getPlayerSession(ctx.channel());
-//        IdSession session = SessionManager.getSessionBy(ctx.channel());
-//        this.messageDispatcher.onSessionClosed(session);
     }
 
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {

@@ -18,4 +18,10 @@ public class ReqNpcTalk extends Message {
 		NpcTalk = npcTalk;
 	}
 
+	public ReqNpcTalk() {
+	}
+
+	public ReqNpcTalk(com.player.game.npc.NpcTalk npcTalk) {
+		NpcTalk = npcTalk;
+	}
 }

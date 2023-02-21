@@ -7,6 +7,10 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ShortField {
 
-    int value() default 0;//1.写入byte长度
+    /**
+     * 1.写入byte长度
+     * @return
+     */
+    int value() default 0;
 
 }

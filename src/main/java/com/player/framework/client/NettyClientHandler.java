@@ -34,11 +34,7 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
      * @throws Exception
      */
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-//        if(this.messageDispatcher.dispatch(idSession, (Message) msg)){
-//            idSession.send((Message)msg);
-//        }
         this.messageDispatcher.dispatch(idSession, (Message) msg);
-        idSession.send((Message) msg);
     }
 
     /**
@@ -52,16 +48,6 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
         idSession.getChannel().close();
     }
 
-    /**
-     * 心跳
-     * @param ctx
-     * @param msg
-     * @throws Exception
-     */
-    public void userEventTriggered(ChannelHandlerContext ctx, Object msg) throws Exception {
-        //IdSession session = ChannelSession.getPlayerSession(ctx.channel());
-        //this.messageDispatcher.onSessionClosed(session);
-    }
 
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         try {

@@ -42,10 +42,11 @@ public class MessageTask extends TaskAdapter implements Executor {
 
 	public void action() {
 		try {
-			Object response = this.method.invoke(this.handler, this.params);
-			if (response != null) {
-				MessageRouter.send(this.playerId, (Message) response);
-			}
+			method.invoke(handler, params);
+//			Object response = this.method.invoke(this.handler, this.params);
+//			if (response != null) {
+//				MessageRouter.send(this.playerId, (Message) response);
+//			}
 		} catch (Exception e) {
 			logger.error("", e);
 		}

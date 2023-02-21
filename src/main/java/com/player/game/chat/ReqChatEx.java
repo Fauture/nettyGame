@@ -12,6 +12,9 @@ import java.util.List;
 
 @MessageMeta(cmd = Cmd.ORIGINAL, module = Module.CMD_CHAT_EX)
 public class ReqChatEx extends Message {
+    /**
+     * 类型
+     */
     private short channel;
     private short compress;
     private short orgLength;
@@ -19,6 +22,9 @@ public class ReqChatEx extends Message {
     @StringField(1)
     private String msg;
 
+    /**
+     * 名片
+     */
     @ListField()
     private List<Card> Card;
 

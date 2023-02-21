@@ -6,7 +6,10 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LongField {
-
-    int value() default 0;//1.写入int长度
+    /**
+     * 1.写入int长度
+     * @return
+     */
+    int value() default 0;
 
 }

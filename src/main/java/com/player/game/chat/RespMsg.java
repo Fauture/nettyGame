@@ -11,7 +11,10 @@ import com.player.server.Module;
 @MessageIgnore()
 @MessageMeta(cmd = Cmd.ORIGINAL, module = Module.MSG_DIALOG_OK)
 public class RespMsg extends Message {
-   
+
+    /**
+     * 发送消息
+     */
     @StringField(1)
     private String msg;
    
@@ -23,14 +26,6 @@ public class RespMsg extends Message {
 
     public void setMsg(String msg) {
         this.msg = msg;
-    }
-
-    public short getActive() {
-        return active;
-    }
-
-    public void setActive(short active) {
-        this.active = active;
     }
 
     public RespMsg(String msg) {

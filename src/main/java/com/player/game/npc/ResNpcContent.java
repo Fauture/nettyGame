@@ -55,14 +55,6 @@ public class ResNpcContent extends Message {
 		this.text = text;
 	}
 
-	public int getUnknown() {
-		return unknown;
-	}
-
-	public void setUnknown(int unknown) {
-		this.unknown = unknown;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -71,27 +63,4 @@ public class ResNpcContent extends Message {
 		this.name = name;
 	}
 
-	public short getUnknown_1() {
-		return unknown_1;
-	}
-
-	public void setUnknown_1(short unknown_1) {
-		this.unknown_1 = unknown_1;
-	}
-
-	public short getUnknown_2() {
-		return unknown_2;
-	}
-
-	public void setUnknown_2(short unknown_2) {
-		this.unknown_2 = unknown_2;
-	}
-
-	public byte getUnknown_3() {
-		return unknown_3;
-	}
-
-	public void setUnknown_3(byte unknown_3) {
-		this.unknown_3 = unknown_3;
-	}
 }

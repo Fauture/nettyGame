@@ -17,4 +17,10 @@ public class ReqNpcTalk_2 extends Message {
 		NpcTalk = npcTalk;
 	}
 
+	public ReqNpcTalk_2() {
+	}
+
+	public ReqNpcTalk_2(com.player.game.npc.NpcTalk npcTalk) {
+		NpcTalk = npcTalk;
+	}
 }

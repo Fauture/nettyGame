@@ -1,14 +1,14 @@
-package com.player.framework.net;
+package com.player.framework.client;
 
 import com.player.framework.codec.IMessageEncoder;
 import com.player.framework.codec.SerializerHelper;
+import com.player.framework.serializer.Message;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
-import com.player.framework.serializer.Message;
 
 /**
- * 组合包体
+ * 客户端组合包体
  */
 public class NettyProtocolEncoder extends MessageToByteEncoder<Message> {
 

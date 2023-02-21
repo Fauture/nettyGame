@@ -5,6 +5,8 @@ import java.util.Map;
 
 import com.player.framework.client.NettyClient;
 import com.player.framework.serializer.Message;
+import com.player.game.CharData;
+import com.player.game.role.ResSkill;
 import com.player.server.ServerConfig;
 import io.netty.channel.Channel;
 
@@ -15,6 +17,21 @@ public class PlayerSession implements IdSession {
     private Channel channel;
     private Map<String, Object> container = new HashMap<>();
 
+    /**
+     * 玩家数据
+     */
+    private CharData charData = new CharData();
+
+    @Override
+    public CharData getCharData() {
+        return charData;
+    }
+
+    /**
+     * 玩家连接服务器
+     * @param channel
+     * @throws InterruptedException
+     */
     public PlayerSession(Channel channel) throws InterruptedException {
         super();
         this.channel = channel;

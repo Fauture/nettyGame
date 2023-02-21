@@ -2,7 +2,13 @@ package com.player.game.npc;
 
 public class NpcTalk {
     private int npcId;
+    /**
+     * 消息
+     */
     private String msg;
+    /**
+     * 对话附加项
+     */
     private String para;
 
     public int getNpcId() {

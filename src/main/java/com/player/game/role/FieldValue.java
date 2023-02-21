@@ -4,9 +4,18 @@ import com.player.framework.annotation.ValueField;
 
 public class FieldValue {
 
+    /**
+     * 属性id
+     */
     private short field;
+    /**
+     * 属性类型 1字节 2短整 3整数 4文本
+     */
     @ValueField()
     private byte type;
+    /**
+     * 属性值
+     */
     private Object value;
 
     public FieldValue(int fieldId, int type, Object value) {
@@ -15,19 +24,6 @@ public class FieldValue {
         this.value = value;
     }
 
-//    public FieldValue(int fieldId, Object value) {
-//        this.type = (short) fieldId;
-//        byte fieldType = SpringUtils.getBean(AttrService.class).getAttrType(fieldId);
-//        if (fieldType == 0) {//等于0说明配置不对 抛出异常看看是什么属性
-//            try {
-//                throw new Exception(String.format("属性ID[%d]的类型不正确!!!", fieldId));
-//            } catch (Exception e) {
-//                LoggerFactory.getLogger(this.getClass()).error("属性ID={}没有设置类型={}",fieldId, Lang.getStackTrace(e));
-//            }
-//        }
-//        this.VT = fieldType;
-//        this.value = value;
-//    }
 
     public FieldValue() {
     }
